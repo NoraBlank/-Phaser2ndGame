@@ -100,7 +100,7 @@ function create ()
     bombs = this.physics.add.group();
 
     
-    scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+    scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: 'fff' });
 
     
     this.physics.add.collider(player, platforms);
