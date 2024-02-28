@@ -5,7 +5,7 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 300 },
+            gravity: { y: 290 },
             debug: false
         }
     },
@@ -100,7 +100,7 @@ function create ()
     bombs = this.physics.add.group();
 
     
-    scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: 'fff' });
+    scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#fff' });
 
     
     this.physics.add.collider(player, platforms);
