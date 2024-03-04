@@ -41,25 +41,26 @@ function create ()
 {
     this.add.tileSprite(0, 0, worldwidth, 1080, "sky").setOrigin(0,0);
 
-    //this.add.image(400, 300, 'sky');
+                                     //this.add.image(400, 300, 'sky');
 
   //платформа підлаштовується під розміри
     platforms = this.physics.add.staticGroup();
     for(var x=0; x<worldwidth; x=x+400){
         console.log(x)
         platforms.create(x, 1000, 'ground').setOrigin(0,0).refreshBody();
-    }
-    //platforms.create(400, 568, 'ground').setScale(2).refreshBody();
-    //platforms.create(600, 400, 'ground');
-    //platforms.create(50, 250, 'ground');
-    //platforms.create(750, 220, 'ground');
+    } 
+                                     //platforms.create(400, 568, 'ground').setScale(2).refreshBody();
+                                     //platforms.create(600, 400, 'ground');
+                                     //platforms.create(50, 250, 'ground');
+                                     //platforms.create(750, 220, 'ground');
 
     
     player = this.physics.add.sprite(100, 450, 'dude');
 
     
     player.setBounce(0.2);
-    //player.setCollideWorldBounds(true);
+                                     //player.setCollideWorldBounds(true);
+    //камера
     this.cameras.main.setBounds(0,0, worldwidth, window.innerHeight);
     this.physics.world.setBounds(0,0, worldwidth, window.innerHeight);
     this.cameras.main.startFollow(player)
