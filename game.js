@@ -1,11 +1,11 @@
 var config = {
     type: Phaser.AUTO,
-    width: 800,
-    height: 600,
+    width: 1920,
+    height: 1080,
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 300 },
+            gravity: { y: 400 },
             debug: false
         }
     },
@@ -24,6 +24,7 @@ var cursors;
 var score = 0;
 var gameOver = false;
 var scoreText;
+worldwidth = 9600;
 
 var game = new Phaser.Game(config);
 
@@ -38,27 +39,30 @@ function preload ()
 
 function create ()
 {
-    
-    this.add.image(400, 300, 'sky');
+    this.add.tileSprite(0, 0, worldwidth, 1080, "sky").setOrigin(0,0);
 
-  
+    //this.add.image(400, 300, 'sky');
+
+  //платформа підлаштовується під розміри
     platforms = this.physics.add.staticGroup();
-
-   
-    platforms.create(400, 568, 'ground').setScale(2).refreshBody();
-
-    
-    platforms.create(600, 400, 'ground');
-    platforms.create(50, 250, 'ground');
-    platforms.create(750, 220, 'ground');
+    for(var x=0; x<worldwidth; x=x+400){
+        console.log(x)
+        platforms.create(x, 1000, 'ground').setOrigin(0,0).refreshBody();
+    }
+    //platforms.create(400, 568, 'ground').setScale(2).refreshBody();
+    //platforms.create(600, 400, 'ground');
+    //platforms.create(50, 250, 'ground');
+    //platforms.create(750, 220, 'ground');
 
     
     player = this.physics.add.sprite(100, 450, 'dude');
 
     
     player.setBounce(0.2);
-    player.setCollideWorldBounds(true);
-
+    //player.setCollideWorldBounds(true);
+    this.cameras.main.setBounds(0,0, worldwidth, window.innerHeight);
+    this.physics.world.setBounds(0,0, worldwidth, window.innerHeight);
+    this.cameras.main.startFollow(player)
     
     this.anims.create({
         key: 'left',
@@ -111,6 +115,7 @@ function create ()
     this.physics.add.overlap(player, stars, collectStar, null, this);
 
     this.physics.add.collider(player, bombs, hitBomb, null, this);
+
 }
 
 function update ()
@@ -122,13 +127,13 @@ function update ()
 
     if (cursors.left.isDown)
     {
-        player.setVelocityX(-160);
+        player.setVelocityX(-250);
 
         player.anims.play('left', true);
     }
     else if (cursors.right.isDown)
     {
-        player.setVelocityX(160);
+        player.setVelocityX(250);
 
         player.anims.play('right', true);
     }
@@ -141,7 +146,7 @@ function update ()
 
     if (cursors.up.isDown && player.body.touching.down)
     {
-        player.setVelocityY(-330);
+        player.setVelocityY(-500);
     }
 }
 
