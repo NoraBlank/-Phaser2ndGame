@@ -35,13 +35,13 @@ function preload ()
     this.load.image('star', 'assets/star.png');
     this.load.image('bomb', 'assets/bomb.png');
     this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
+    this.load.image('rock', 'assets/rock.png');
 }
 
 function create ()
 {
     this.add.tileSprite(0, 0, worldwidth, 1080, "sky").setOrigin(0,0);
 
-                                     //this.add.image(400, 300, 'sky');
 
   //платформа підлаштовується під розміри
     platforms = this.physics.add.staticGroup();
@@ -49,17 +49,18 @@ function create ()
         console.log(x)
         platforms.create(x, 1000, 'ground').setOrigin(0,0).refreshBody();
     } 
-                                     //platforms.create(400, 568, 'ground').setScale(2).refreshBody();
-                                     //platforms.create(600, 400, 'ground');
-                                     //platforms.create(50, 250, 'ground');
-                                     //platforms.create(750, 220, 'ground');
-
+                                     
+    rock = this.physics.add.staticGroup();
+    for(var x = 400; x < worldwidth; x = x + Phaser.Math.FloatBetween(300, 1600)){
+        console.log('x-' + x)
+        rock.create(x, 1080-80, 'rock').setOrigin(0,1).setScale(Phaser.Math. FloatBetween(0.5, 1)).refreshBody();
+    }
     
     player = this.physics.add.sprite(100, 450, 'dude');
 
     
     player.setBounce(0.2);
-                                     //player.setCollideWorldBounds(true);
+                                     
     //камера
     this.cameras.main.setBounds(0,0, worldwidth, window.innerHeight);
     this.physics.world.setBounds(0,0, worldwidth, window.innerHeight);
