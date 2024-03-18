@@ -25,7 +25,7 @@ var score = 0;
 var gameOver = false;
 var scoreText;
 var worldwidth = 9600;
-
+var life = 5;
 var game = new Phaser.Game(config);
 
 function preload() {
@@ -38,6 +38,7 @@ function preload() {
     this.load.image('lef', 'assets/lef.png');
     this.load.image('mid', 'assets/mid.png');
     this.load.image('rig', 'assets/rig.png');
+    this.load.image('cross', 'assets/cross.png');
 }
 
 function create() {
@@ -48,7 +49,7 @@ function create() {
     platforms = this.physics.add.staticGroup();
     for (var x = 0; x < worldwidth; x = x + 400) {
         console.log(x)
-        platforms.create(x, 1000, 'ground').setOrigin(0, 0).refreshBody();
+        platforms.create(x, 1000, 'ground').setOrigin(0, 0).refreshBody().setScale(2.4);
     }
 
     //рандомні платформи
@@ -67,6 +68,13 @@ function create() {
     for (var x = 400; x < worldwidth; x = x + Phaser.Math.FloatBetween(300, 1600)) {
         console.log('x-' + x)
         rock.create(x, 1080 - 80, 'rock').setOrigin(0, 1).setScale(Phaser.Math.FloatBetween(0.5, 1)).refreshBody();
+    }
+
+    //створення хрестів
+    cross = this.physics.add.staticGroup();
+    for (var x = 400; x < worldwidth; x = x + Phaser.Math.FloatBetween(300, 1600)) {
+        console.log('x-' + x)
+        cross.create(x, 1080 - 80, 'cross').setOrigin(0, 1).setScale(Phaser.Math.FloatBetween(0.5, 1)).refreshBody();
     }
 
     player = this.physics.add.sprite(100, 450, 'dude');
@@ -104,8 +112,8 @@ function create() {
 
     stars = this.physics.add.group({
         key: 'star',
-        repeat: 11,
-        setXY: { x: 12, y: 0, stepX: 70 }
+        repeat: 1200,
+        setXY: { x: 12, y: 0, stepX: 150 }
     });
 
     stars.children.iterate(function (child) {
@@ -129,8 +137,17 @@ function create() {
 
     this.physics.add.overlap(player, stars, collectStar, null, this);
     this.physics.add.collider(player, bombs, hitBomb, null, this);
-
-
+    
+    //smth
+    function showLife() {
+        var lifeLine = "Hearts" 
+        for ( var i = 0; i < life; i++){
+            lifeLine +='💜'
+        }
+        return lifeLine
+    }
+    //life
+    lifeText = this.add.text(1500, 50, showLife(), {fontSize: '40px', fill:'fff'}).setOrigin(0,0).setScrollFactor(0);
 
 }
 
