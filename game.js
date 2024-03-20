@@ -132,9 +132,6 @@ function create() {
     this.physics.add.collider(player, platforms);
     this.physics.add.collider(stars, platforms);
     this.physics.add.collider(bombs, platforms);
-
-
-
     this.physics.add.overlap(player, stars, collectStar, null, this);
     this.physics.add.collider(player, bombs, hitBomb, null, this);
     
@@ -148,10 +145,26 @@ function create() {
     }
     //life
     lifeText = this.add.text(1500, 50, showLife(), {fontSize: '40px', fill:'fff'}).setOrigin(0,0).setScrollFactor(0);
-
+    function hitBomb(player, bomb) {
+        bomb.disableBody(true, true);
+        life -= 1;
+        lifeText.setText(showLife());
+        console.log('bomb')
+        if(life == 0){
+            this.physics.pause();
+            gameOver = true;
+        }
+    }
+    //кнопка перезапуску
+    // var resetButton = this.add.text(400, 450, 'reset', { fontSize: '40px', fill: '#fff'}).setInteractive().setScrollFactor(0);
+    // resetButton.on('pointerdown', function(){
+    //     console.log('restart')
+    //     refreshBody()
+    // });
 }
 
 function update() {
+    //переміщення та анімація
     if (gameOver) {
         return;
     }
@@ -179,36 +192,30 @@ function update() {
 
 function collectStar(player, star) {
     star.disableBody(true, true);
-
-
     score += 10;
     scoreText.setText('Score: ' + score);
 
-    if (stars.countActive(true) === 0) {
+    // if (stars.countActive(true) === 0) {
 
-        stars.children.iterate(function (child) {
+    //     stars.children.iterate(function (child) {
 
-            child.enableBody(true, child.x, 0, true, true);
+    //         child.enableBody(true, child.x, 0, true, true);
 
-        });
+    //     });
 
-        var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+    //     var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
 
-        var bomb = bombs.create(x, 16, 'bomb');
-        bomb.setBounce(1);
-        bomb.setCollideWorldBounds(true);
-        bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
-        bomb.allowGravity = false;
+    //     var bomb = bombs.create(x, 16, 'bomb');
+    //     bomb.setBounce(1);
+    //     bomb.setCollideWorldBounds(true);
+    //     bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+    //     bomb.allowGravity = false;
 
-    }
+    // }
+    var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+    var bomb = bombs.create(x, 16, 'bomb');
+    bomb.setBounce(1);
+    bomb.setCollideWorldBounds(true);
+    bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
 }
 
-function hitBomb(player, bomb) {
-    this.physics.pause();
-
-    player.setTint(0xff0000);
-
-    player.anims.play('turn');
-
-    gameOver = true;
-}
