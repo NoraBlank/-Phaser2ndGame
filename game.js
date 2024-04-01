@@ -155,12 +155,8 @@ function create() {
             gameOver = true;
         }
     }
-    //кнопка перезапуску
-    // var resetButton = this.add.text(400, 450, 'reset', { fontSize: '40px', fill: '#fff'}).setInteractive().setScrollFactor(0);
-    // resetButton.on('pointerdown', function(){
-    //     console.log('restart')
-    //     refreshBody()
-    // });
+    
+   
 }
 
 function update() {
@@ -188,6 +184,12 @@ function update() {
     if (cursors.up.isDown && player.body.touching.down) {
         player.setVelocityY(-500);
     }
+
+    if(score == 250) {
+        this.physics.pause();
+        gameOver = true; 
+        console.log("++")
+    } 
 }
 
 function collectStar(player, star) {
