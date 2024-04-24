@@ -1,3 +1,4 @@
+//створюємо середовище
 var config = {
     type: Phaser.AUTO,
     width: 1920,
@@ -16,6 +17,7 @@ var config = {
     }
 };
 
+//змінні
 var player;
 var stars;
 var bombs;
@@ -28,6 +30,7 @@ var worldwidth = 9600;
 var life = 5;
 var game = new Phaser.Game(config);
 
+//завантажуємо асети
 function preload() {
     this.load.image('sky', 'assets/sky.png');
     this.load.image('ground', 'assets/platform.png');
@@ -125,7 +128,7 @@ function create() {
 
     bombs = this.physics.add.group();
 
-
+    //рахунок
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#fff' }).setScrollFactor(0);
 
 
@@ -135,7 +138,7 @@ function create() {
     this.physics.add.overlap(player, stars, collectStar, null, this);
     this.physics.add.collider(player, bombs, hitBomb, null, this);
     
-    //smth
+    //лінія життя
     function showLife() {
         var lifeLine = "Hearts" 
         for ( var i = 0; i < life; i++){
@@ -143,7 +146,7 @@ function create() {
         }
         return lifeLine
     }
-    //life
+    //бомби
     lifeText = this.add.text(1500, 50, showLife(), {fontSize: '40px', fill:'fff'}).setOrigin(0,0).setScrollFactor(0);
     function hitBomb(player, bomb) {
         bomb.disableBody(true, true);
@@ -192,28 +195,11 @@ function update() {
     } 
 }
 
+//збір зірок
 function collectStar(player, star) {
     star.disableBody(true, true);
     score += 10;
     scoreText.setText('Score: ' + score);
-
-    // if (stars.countActive(true) === 0) {
-
-    //     stars.children.iterate(function (child) {
-
-    //         child.enableBody(true, child.x, 0, true, true);
-
-    //     });
-
-    //     var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
-
-    //     var bomb = bombs.create(x, 16, 'bomb');
-    //     bomb.setBounce(1);
-    //     bomb.setCollideWorldBounds(true);
-    //     bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
-    //     bomb.allowGravity = false;
-
-    // }
     var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
     var bomb = bombs.create(x, 16, 'bomb');
     bomb.setBounce(1);
